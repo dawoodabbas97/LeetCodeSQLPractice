@@ -1,0 +1,9 @@
+select user_id as buyer_id, join_date, 
+coalesce(cnt,0) as orders_in_2019
+from users u
+left join (
+select buyer_id, count(*) cnt 
+from (select * from orders where year(order_date) = 2019) tmp
+group by buyer_id
+) o
+on u.user_id = o.buyer_id;
